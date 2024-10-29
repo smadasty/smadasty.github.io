@@ -1,0 +1,5 @@
+title: "logicrumbs.com"
+description: "A brief description of myself"
+baseurl: "" # Leave this blank for personal GitHub Pages
+url: "https://smadasty.github.io" # Or your custom domain if you have one
+theme: jekyll-theme-minimal # Replace with your theme’s name if it’s a GitHub-supported theme
