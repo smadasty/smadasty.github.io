@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Success is not evidence | Srikanth Madishetti</title>
+  <meta name="description" content="Four times in three days, something we built reported success while changing nothing. None of them failed loudly. What we now check instead.">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://smadasty.github.io/writing/success-is-not-evidence.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Success is not evidence">
+  <meta property="og:description" content="Four times in three days, something we built reported success while changing nothing. None of them failed loudly. What we now check instead.">
+  <meta property="og:url" content="https://smadasty.github.io/writing/success-is-not-evidence.html">
+  <meta property="og:image" content="https://smadasty.github.io/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#0d131c">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../home.css">
+  <link rel="stylesheet" href="../essay.css">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="name" href="../index.html">Srikanth Madishetti</a>
+    <nav aria-label="Sections">
+      <a href="../index.html#work">Work</a>
+      <a href="index.html">Writing</a>
+      <a href="../index.html#contact" class="opt">Contact</a>
+      <button class="theme" id="themeToggle" type="button">Light</button>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="post-head">
+    <div class="wrap">
+      <a class="back" href="index.html">All writing</a>
+      <h1>Success is not evidence</h1>
+      <p class="dek">Four times in three days, something we built reported success while changing nothing. None of them failed loudly. What we now check instead.</p>
+      <div class="date">November 2026</div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <figure class="post-figure">
+      <div class="flow">
+        <div class="flow-bar"><span id="steps-status">Someone makes a change.</span><span class="live">Running</span></div>
+        <svg class="steps" viewBox="0 0 700 136" role="img" aria-label="The tool said done. Only the system can say whether it is.">
+          <path class="route" d="M92.0 68 H608.0"/>
+          <circle class="packet" r="5" cx="92.0" cy="68"/>
+          <g class="node" data-at="0.0000" data-say="Someone makes a change."><rect x="16.0" y="40" width="152" height="56" rx="10"/><text x="28.0" y="64">Make a change</text><text class="sub" x="28.0" y="81">publish, deploy, roll back</text></g><g class="node" data-at="0.3333" data-tone="ok" data-say="The tool reports success. Most teams stop here."><rect x="188.0" y="40" width="152" height="56" rx="10"/><text x="200.0" y="64">Tool says success</text><text class="sub" x="200.0" y="81">toast, green build</text></g><g class="node" data-at="0.6667" data-tone="wait" data-final="ok" data-say="Check what the system actually serves." data-after="Nothing had changed. Caught before anyone relied on it."><rect x="360.0" y="40" width="152" height="56" rx="10"/><text x="372.0" y="64">Check the system</text><text class="sub" x="372.0" y="81">the served bytes</text></g><g class="node" data-at="1.0000" data-tone="ok" data-say="Fix it so the mistake can&#x27;t be expressed again."><rect x="532.0" y="40" width="152" height="56" rx="10"/><text x="544.0" y="64">Make it impossible</text><text class="sub" x="544.0" y="81">remove the path</text></g>
+        </svg>
+      </div>
+      <figcaption>The tool said done. Only the system can say whether it is.</figcaption>
+    </figure>
+    <div class="post-body">
+      <div>
+        <article class="prose">
+
+      <p>
+        We were a day from switching on a privacy control across several
+        consumer websites when someone noticed the Publish button had never
+        worked. It looked as if it did. You pressed it, a new version appeared
+        in the history, and the screen said published. But the button was
+        sending a field the API reads as "roll back", so every publish after
+        the first one quietly republished the first one.
+      </p>
+      <p>
+        Had we flipped the kill switch that week, the console would have
+        reported success and protected nobody.
+      </p>
+
+      <h2 id="four-in-three-days">Four in three days</h2>
+      <p>
+        That would be a good story on its own. It wasn't on its own. In the
+        same three days we found three more places where something reported
+        success and changed nothing:
+      </p>
+      <ul>
+        <li>A <strong>Roll back</strong> button that showed a "rolled back" message and did nothing at all.</li>
+        <li>
+          A rollback job that copied files with a sync command. Sync copies a
+          file only when it is newer or a different size. A rollback copies
+          older files, often of the same size. So the job skipped everything,
+          every time, and reported success every time.
+        </li>
+        <li>A settings dropdown that changed what was on screen, saved nothing, and offered a friendly undo.</li>
+      </ul>
+      <p>
+        <strong>None of them failed loudly.</strong> We caught them by reading a
+        log, by reading the API's contract, by a deploy step that fetched the
+        live public URL and checked which release it was actually serving, and
+        by a plain survey of the code. In every case the thing that said
+        "done" was describing itself, not the system.
+      </p>
+
+      <h2 id="why-ai-makes-this-worse">Why AI makes this worse</h2>
+      <p>
+        AI agents write code fast, and they report on their own work just as
+        fast. That means more success messages per day than any team has ever
+        had to read, and each one sounds sure of itself.
+      </p>
+      <p>
+        One evening a background job took down a service for about seventy
+        seconds. The first account I was given said the job had almost
+        certainly run to completion and written nothing. It was an inference,
+        it was wrong, and it had already travelled as fact. A read-only check
+        of the logs showed the process had been killed for running out of
+        memory. We rebuilt the production image, ran it locally under the same
+        one-gigabyte limit, reproduced the old failure first, and only then
+        measured the fix: the old path peaked above a gigabyte, the new one at
+        85 megabytes.
+      </p>
+      <p>
+        An agent's account of its own failure is a claim too. So is mine. The
+        habit that matters is saying "I have not checked" when that is the
+        truth.
+      </p>
+
+      <h2 id="check-the-thing-not-the-label">Check the thing, not the label</h2>
+      <p>What we changed was less about tools and more about which question each check answers.</p>
+      <p>
+        <strong>Verify what is served, not what was sent.</strong> After a
+        deploy, fetch the public URL and read the version in the bytes. A
+        version string is something the build writes next to the code; it is
+        not the code.
+      </p>
+      <p>
+        <strong>Make the bug impossible, not just fixed.</strong> The publish
+        defect was fixed by removing the field from that code path entirely,
+        not by correcting one call. A mistake that cannot be expressed cannot
+        come back.
+      </p>
+      <p>
+        <strong>An assertion that equals the default proves nothing.</strong>
+        We had three bugs live for weeks because every real value happened to
+        equal the fallback the broken code returned. A correct render and a
+        dead code path looked identical. Tests now drive a deliberately
+        unusual value end to end, so they can actually fail.
+      </p>
+      <p>
+        <strong>Ask whether the gate asks the right question.</strong> One
+        contract check confirmed that the API would <em>accept</em> a sample
+        config. The question that mattered was whether that is what the API
+        <em>serves</em>. Because the API quietly upgrades old formats on read,
+        the check stayed green while production moved on without it.
+      </p>
+      <p>
+        <strong>Bytes are not pixels.</strong> I once confirmed a styling fix
+        in the shipped file and called it verified. The theme redefined the
+        value underneath it, and the checkbox on screen was still a circle.
+        The lasting fix was a test that renders the real component with the
+        real stylesheet and measures the result, proven by making it fail
+        first.
+      </p>
+      <p>
+        <strong>Distrust a file that exists.</strong> A script that saved an
+        error page into a data file looked exactly like one that had worked.
+        Leaving output behind is not the same as producing it.
+      </p>
+
+      <h2 id="it-cuts-both-ways">It cuts both ways</h2>
+      <p>
+        The mirror image is just as costly. Twice in one evening a check told
+        me something was missing right after it had been published correctly:
+        once because the page was cached, once because the code waits ten
+        seconds before reporting and the check waited five. A false "it isn't
+        there" can get a correct change reverted. Before reporting absence, we
+        check twice: a second URL, a cache-buster, and a wait longer than any
+        timer in the path.
+      </p>
+
+      <h2 id="what-this-asks-of-leaders">What this asks of leaders</h2>
+      <p>
+        Every dashboard, every green build and every closed ticket is a
+        report, and reports describe the reporter. The question that keeps a
+        team honest is short: <strong>how do you know?</strong> Not "did it
+        succeed", but what did you look at, outside the thing that made the
+        change, that shows it worked for the people it was built for.
+      </p>
+      <p>
+        That question costs a few minutes per change. The alternative is a
+        kill switch that says it worked.
+      </p>
+        </article>
+
+    <aside class="author">
+      <p><strong>Srikanth Madishetti.</strong> I build systems end to end, from database to cloud,
+      and lead the teams that run them. Right now that means making AI safe enough for production.</p>
+      <div class="cta">
+        <a class="btn primary" href="mailto:srikanthmadishetti@gmail.com">Email me</a>
+        <a class="btn" href="https://www.linkedin.com/in/smadishetti/">LinkedIn</a>
+        <a class="btn" href="../index.html">More about my work</a>
+      </div>
+    </aside>
+      </div>
+      <aside class="toc" aria-label="On this page">
+        <p class="toc-title">On this page</p>
+        <nav><a href="#four-in-three-days">Four in three days</a><a href="#why-ai-makes-this-worse">Why AI makes this worse</a><a href="#check-the-thing-not-the-label">Check the thing, not the label</a><a href="#it-cuts-both-ways">It cuts both ways</a><a href="#what-this-asks-of-leaders">What this asks of leaders</a></nav>
+        <p class="toc-meta">4 min read</p>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Srikanth Madishetti, Greenwich, Connecticut</span>
+    <a href="#top">Back to top</a>
+  </div>
+</footer>
+
+<script src="../steps.js"></script>
+</body>
+</html>

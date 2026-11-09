@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A governed doorway: building a shared MCP platform | Srikanth Madishetti</title>
+  <meta name="description" content="AI agents need access to enterprise systems. How you grant that access is the whole game — the concept and lessons from building a shared MCP platform.">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://smadasty.github.io/writing/a-governed-doorway-mcp.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="A governed doorway: building a shared MCP platform">
+  <meta property="og:description" content="AI agents need access to enterprise systems. How you grant that access is the whole game — the concept and lessons from building a shared MCP platform.">
+  <meta property="og:url" content="https://smadasty.github.io/writing/a-governed-doorway-mcp.html">
+  <meta property="og:image" content="https://smadasty.github.io/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#0d131c">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../home.css">
+  <link rel="stylesheet" href="../essay.css">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="name" href="../index.html">Srikanth Madishetti</a>
+    <nav aria-label="Sections">
+      <a href="../index.html#work">Work</a>
+      <a href="index.html">Writing</a>
+      <a href="../index.html#contact" class="opt">Contact</a>
+      <button class="theme" id="themeToggle" type="button">Light</button>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="post-head">
+    <div class="wrap">
+      <a class="back" href="index.html">All writing</a>
+      <h1>A governed doorway: building a shared MCP platform</h1>
+      <p class="dek">AI agents need access to enterprise systems. How you grant that access is the whole game — the concept and lessons from building a shared MCP platform.</p>
+      <div class="date">July 2026</div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <figure class="post-figure">
+      <div class="flow">
+        <div class="flow-bar"><span id="steps-status">An agent asks to do something.</span><span class="live">Running</span></div>
+        <svg class="steps" viewBox="0 0 700 136" role="img" aria-label="Every agent comes through one entrance. Writes stop for a person.">
+          <path class="route" d="M92.0 68 H608.0"/>
+          <circle class="packet" r="5" cx="92.0" cy="68"/>
+          <g class="node" data-at="0.0000" data-say="An agent asks to do something."><rect x="16.0" y="40" width="152" height="56" rx="10"/><text x="28.0" y="64">Any AI agent</text><text class="sub" x="28.0" y="81">terminal, chat, phone</text></g><g class="node" data-at="0.3333" data-say="The doorway checks who is asking and what they may touch."><rect x="188.0" y="40" width="152" height="56" rx="10"/><text x="200.0" y="64">One doorway</text><text class="sub" x="200.0" y="81">identity, scope, audit</text></g><g class="node" data-at="0.6667" data-tone="wait" data-final="ok" data-say="A write waits for a person to review the preview." data-after="Approved. The write goes ahead, and it&#x27;s logged."><rect x="360.0" y="40" width="152" height="56" rx="10"/><text x="372.0" y="64">A person</text><text class="sub" x="372.0" y="81">previews the write</text></g><g class="node" data-at="1.0000" data-tone="ok" data-say="The system acts, once, through one audited path."><rect x="532.0" y="40" width="152" height="56" rx="10"/><text x="544.0" y="64">Company system</text><text class="sub" x="544.0" y="81">tickets, data, email</text></g>
+        </svg>
+      </div>
+      <figcaption>Every agent comes through one entrance. Writes stop for a person.</figcaption>
+    </figure>
+    <div class="post-body">
+      <div>
+        <article class="prose">
+
+      <p>
+        The moment AI agents start doing real work, they need to touch real
+        systems — the ticket tracker, the data warehouse, the deployment
+        pipeline. And the moment that happens, every company faces the same
+        fork in the road, usually without noticing they're at it.
+      </p>
+
+      <p>
+        The default path is ad-hoc: each team wires its favorite AI tool
+        directly to each system it needs. It works on day one. By month six
+        you have an N-by-M mess of integrations, credentials scattered across
+        laptops and config files, and no honest answer to the question a board
+        will eventually ask: <strong>what can your AI agents touch, and who
+        approved it?</strong>
+      </p>
+
+      <p>
+        The other path is a platform. That's the one I took, and it's the
+        concept I'd argue every company adopting AI seriously will converge
+        on: <strong>one governed doorway through which all agents reach all
+        systems.</strong>
+      </p>
+
+      <h2 id="the-concept">The concept</h2>
+      <p>
+        MCP — the Model Context Protocol — has emerged as the standard for
+        giving AI models access to tools. Most companies consume it piecemeal:
+        a vendor server here, a plugin there. The concept I built instead is a
+        <em>shared internal MCP platform</em>: a single service, owned like
+        any other piece of infrastructure, that exposes enterprise systems to
+        AI agents through versioned, provider-based tool contracts.
+      </p>
+      <p>
+        The design is a hybrid. Standard SaaS tools ride on their vendors'
+        hosted MCP servers — no point rebuilding what already works. Custom
+        and internal workflows go through the shared platform, which owns
+        authentication, authorization, auditing, and observability in one
+        place. Any AI client — different vendors' agents, internal
+        applications — speaks to the same interface and inherits the same
+        governance.
+      </p>
+      <p>
+        We built it ticketing first: a working provider handling real read and
+        write workflows for project management, with write-paths opt-in and
+        validated against a dedicated test target before touching anything
+        real. Not a slide about future architecture — a running service that
+        agents use every day, with a roadmap of providers behind it.
+      </p>
+
+      <h2 id="what-building-it-taught-me">What building it taught me</h2>
+      <p>
+        <strong>Start with one high-value provider, not a framework.</strong>
+        The temptation is to design the grand abstraction first. We shipped
+        one provider that solved a real daily workflow, and let the platform
+        shape emerge from the second and third. The abstraction you extract is
+        always better than the one you invent.
+      </p>
+      <p>
+        <strong>Design for many clients from day one.</strong> The same tools
+        get called by different AI products and by internal applications.
+        Treating the tool contract as the product — versioned, documented,
+        client-agnostic — is what turns an integration into a platform.
+      </p>
+      <p>
+        <strong>Make writes a privilege, not a default.</strong> Read access
+        unlocks most of the value at a fraction of the risk. Our write paths
+        are opt-in per provider, validated against dedicated targets, and
+        auditable. When something goes wrong, you want the blast radius to be
+        a test ticket, not a production database.
+      </p>
+      <p>
+        <strong>Governance is a feature, not friction.</strong> The audit
+        trail isn't there to slow agents down — it's what makes it defensible
+        to give them more access over time. Every request through one doorway
+        means adoption and control grow together, instead of trading against
+        each other.
+      </p>
+
+      <h2 id="why-executives-should-care">Why executives should care</h2>
+      <p>
+        AI governance debates tend to float at the policy level — principles,
+        committees, acceptable-use documents. Necessary, but a policy can't
+        log a request. The doorway can. If you can't enumerate what your
+        agents can reach, you don't have an AI governance posture; you have a
+        hope. A shared platform turns the hope into architecture — and
+        architecture is something you can inspect, audit, and scale.
+      </p>
+        </article>
+
+    <aside class="author">
+      <p><strong>Srikanth Madishetti.</strong> I build systems end to end, from database to cloud,
+      and lead the teams that run them. Right now that means making AI safe enough for production.</p>
+      <div class="cta">
+        <a class="btn primary" href="mailto:srikanthmadishetti@gmail.com">Email me</a>
+        <a class="btn" href="https://www.linkedin.com/in/smadishetti/">LinkedIn</a>
+        <a class="btn" href="../index.html">More about my work</a>
+      </div>
+    </aside>
+      </div>
+      <aside class="toc" aria-label="On this page">
+        <p class="toc-title">On this page</p>
+        <nav><a href="#the-concept">The concept</a><a href="#what-building-it-taught-me">What building it taught me</a><a href="#why-executives-should-care">Why executives should care</a></nav>
+        <p class="toc-meta">3 min read</p>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Srikanth Madishetti, Greenwich, Connecticut</span>
+    <a href="#top">Back to top</a>
+  </div>
+</footer>
+
+<script src="../steps.js"></script>
+</body>
+</html>

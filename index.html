@@ -1,3 +1,570 @@
----
-layout: default
----
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Srikanth Madishetti</title>
+  <meta name="description" content="I build systems end to end, from database to cloud, and lead the teams that run them. Now: making AI safe enough for production.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://smadasty.github.io/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Srikanth Madishetti">
+  <meta property="og:description" content="I build systems end to end, from database to cloud, and lead the teams that run them. Now: making AI safe enough for production.">
+  <meta property="og:url" content="https://smadasty.github.io/">
+  <meta property="og:image" content="https://smadasty.github.io/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#0d131c">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="home.css">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="name" href="#top">Srikanth Madishetti</a>
+    <nav aria-label="Sections">
+      <a href="#work">Work</a>
+      <a href="#foundations" class="opt">Foundations</a>
+      <a href="#experience" class="opt">Experience</a>
+      <a href="#writing">Writing</a>
+      <button class="theme" id="themeToggle" type="button">Light</button>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- HERO: the thesis, shown working -->
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <!-- A headshot can sit here later without changing the layout. -->
+      <h1>I build systems end to end, and lead the teams that run them.</h1>
+      <p class="lede">
+        Twenty years across architecture, data, payments, security and cloud,
+        and I still write the code. Today I make AI safe enough for production:
+        agents that read freely, write only with a person's approval, and leave
+        evidence behind.
+      </p>
+      <div class="cta">
+        <a class="btn primary" href="#work">See the work</a>
+        <a class="btn" href="mailto:srikanthmadishetti@gmail.com">Get in touch</a>
+        <a class="btn" href="https://www.linkedin.com/in/smadishetti/">LinkedIn</a>
+      </div>
+    </div>
+
+    <figure class="flow" aria-label="Diagram: AI agent requests pass through a governed doorway. Reads go straight to company systems. Writes wait for a person to approve them.">
+      <div class="flow-bar">
+        <span>How an agent reaches company systems</span>
+        <span class="live">Running</span>
+      </div>
+      <svg viewBox="0 0 560 250" role="img" aria-hidden="true">
+        <path class="wire" id="w1" d="M132 160 H178"/>
+        <path class="wire" id="w2" d="M306 160 H414"/>
+        <path class="wire" id="w3" d="M262 134 V78 Q262 62 278 62 H300"/>
+        <path class="wire" id="w4" d="M424 62 H462 Q478 62 478 78 V134"/>
+
+        <g class="node" id="n-agent"><rect x="16" y="134" width="116" height="52" rx="10"/><text x="30" y="157">AI agent</text><text class="sub" x="30" y="174">asks for something</text></g>
+        <g class="node" id="n-door"><rect x="178" y="134" width="128" height="52" rx="10"/><text x="192" y="157">Doorway</text><text class="sub" x="192" y="174">identity and scope</text></g>
+        <g class="node" id="n-person"><rect x="300" y="36" width="124" height="52" rx="10"/><text x="314" y="59">A person</text><text class="sub" x="314" y="76" id="person-sub">approves writes</text></g>
+        <g class="node" id="n-sys"><rect x="414" y="134" width="138" height="52" rx="10"/><text x="428" y="157">Company systems</text><text class="sub" x="428" y="174">tickets, data, email</text></g>
+
+        <text class="sub" x="330" y="152" style="fill:var(--faint);font:400 10.5px var(--sans)">reads</text>
+        <text class="sub" x="238" y="104" style="fill:var(--faint);font:400 10.5px var(--sans)" transform="rotate(-90 238 104)">writes</text>
+
+        <circle class="packet" id="packet" r="5" cx="-20" cy="-20"/>
+      </svg>
+      <div class="flow-log" id="log" aria-live="off"></div>
+    </figure>
+  </div>
+</section>
+
+<!-- PRINCIPLES -->
+<section class="section" id="principles">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Most teams can build with AI now. The hard part is trusting it.</h2>
+      <p>
+        Can you say what your agents are allowed to touch, who approved it, and
+        how you know the answer is right? Everything I build starts from those
+        three questions.
+      </p>
+    </div>
+    <div class="principles">
+      <div>
+        <h3><i style="background:var(--blue)"></i>Read-only by default</h3>
+        <p>Agents get the access to look before they get the access to change. Write access is earned per action, not granted per tool.</p>
+      </div>
+      <div>
+        <h3><i style="background:var(--amber)"></i>A person approves every write</h3>
+        <p>Changes are previewed, confirmed and logged. Code ships only through a reviewed pull request on a protected branch.</p>
+      </div>
+      <div>
+        <h3><i style="background:var(--green)"></i>Evidence for every claim</h3>
+        <p>An answer comes with where it came from. A "done" comes with proof that it works for the people it was built for.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK: interactive showcase -->
+<section class="section" id="work">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>What I'm building now</h2>
+      <p>Six systems that put those principles into production. Pick one.</p>
+    </div>
+
+    <div class="showcase">
+      <div class="tabs" role="tablist" aria-label="Projects">
+        <button class="tab" role="tab" id="t1" aria-controls="p1" aria-selected="true"><strong>Operating model</strong><span>How AI-built software ships</span></button>
+        <button class="tab" role="tab" id="t2" aria-controls="p2" aria-selected="false" tabindex="-1"><strong>Data agent</strong><span>Plain-language questions, safe answers</span></button>
+        <button class="tab" role="tab" id="t3" aria-controls="p3" aria-selected="false" tabindex="-1"><strong>Governed doorway</strong><span>One entrance for every agent</span></button>
+        <button class="tab" role="tab" id="t4" aria-controls="p4" aria-selected="false" tabindex="-1"><strong>Knowledge</strong><span>Facts with owners and dates</span></button>
+        <button class="tab" role="tab" id="t5" aria-controls="p5" aria-selected="false" tabindex="-1"><strong>Privacy control plane</strong><span>Consent across sites and regions</span></button>
+        <button class="tab" role="tab" id="t6" aria-controls="p6" aria-selected="false" tabindex="-1"><strong>Compliance evidence</strong><span>Proved from production</span></button>
+      </div>
+
+      <div>
+        <!-- 1. Operating model -->
+        <article class="panel" role="tabpanel" id="p1" aria-labelledby="t1">
+          <div class="art">
+            <svg viewBox="0 0 640 200" aria-hidden="true">
+              <path class="ln" d="M112 92 H132 M236 92 H256 M360 92 H380 M484 92 H504"/>
+              <rect class="box" x="20" y="66" width="92" height="52" rx="10"/><text class="t" x="34" y="89">Plan</text><text class="s" x="34" y="106">on a ticket</text>
+              <rect class="box wait" x="132" y="66" width="104" height="52" rx="10"/><text class="t" x="146" y="89">Approve</text><text class="s" x="146" y="106">by a person</text>
+              <rect class="box hl" x="256" y="66" width="104" height="52" rx="10"/><text class="t" x="270" y="89">Build</text><text class="s" x="270" y="106">agents write code</text>
+              <rect class="box wait" x="380" y="66" width="104" height="52" rx="10"/><text class="t" x="394" y="89">Review</text><text class="s" x="394" y="106">pull request</text>
+              <rect class="box ok" x="504" y="66" width="120" height="52" rx="10"/><text class="t" x="518" y="89">Ship</text><text class="s" x="518" y="106">protected branch</text>
+              <text class="m" x="20" y="160">access: read-only until approved</text>
+              <text class="m" x="380" y="160">no merge without review</text>
+            </svg>
+          </div>
+          <div class="body">
+            <div class="top"><h3>An operating model for AI-built software</h3><span class="pill live">How I work, daily</span></div>
+            <p>
+              Agents write most of the code; people own all of it. Every change
+              begins as a plan a person approves, is tied to a ticket, and reaches
+              production only through a reviewed pull request on a protected
+              branch. The same partner works across terminal, chat and phone,
+              with shared memory and specialist agents.
+            </p>
+            <ul class="facts"><li>Plan, approve, then build</li><li>Protected branches</li><li>Least-privilege cloud roles</li></ul>
+          </div>
+        </article>
+
+        <!-- 2. Data agent -->
+        <article class="panel" role="tabpanel" id="p2" aria-labelledby="t2" hidden>
+          <div class="art">
+            <svg viewBox="0 0 640 200" aria-hidden="true">
+              <rect class="box" x="20" y="40" width="176" height="56" rx="12"/><text class="s" x="34" y="62">Question</text><text class="t" x="34" y="80">Which orders shipped late?</text>
+              <path class="ln hl" d="M196 68 H236"/>
+              <rect class="box hl" x="236" y="40" width="150" height="56" rx="10"/><text class="t" x="250" y="63">Data dictionary</text><text class="s" x="250" y="80">kept by the business</text>
+              <path class="ln hl" d="M386 68 H426"/>
+              <rect class="box ok" x="426" y="40" width="194" height="56" rx="10"/><text class="t" x="440" y="63">Operational database</text><text class="s" x="440" y="80">credentials can only read</text>
+              <path class="ln" d="M311 96 V130"/>
+              <rect class="box wait" x="236" y="130" width="150" height="46" rx="10" stroke-dasharray="4 4"/><text class="t" x="250" y="151">Miss log</text><text class="s" x="250" y="166">every wrong answer fixed</text>
+              <circle class="dot-ok" cx="604" cy="56" r="4"/>
+            </svg>
+          </div>
+          <div class="body">
+            <div class="top"><h3>A data agent with the guardrails built in</h3><span class="pill live">In daily use</span></div>
+            <p>
+              Staff question a large operational database in plain language. The
+              agent's credentials can only read, its answers are grounded in a
+              data dictionary that the business itself maintains, and every miss
+              is logged and corrected.
+            </p>
+            <ul class="facts"><li>Read-only by construction</li><li>Business-owned definitions</li><li>Feedback loop on misses</li></ul>
+          </div>
+        </article>
+
+        <!-- 3. Doorway -->
+        <article class="panel" role="tabpanel" id="p3" aria-labelledby="t3" hidden>
+          <div class="art">
+            <svg viewBox="0 0 640 200" aria-hidden="true">
+              <rect class="box" x="20" y="26" width="120" height="40" rx="9"/><text class="t" x="34" y="51">Terminal agent</text>
+              <rect class="box" x="20" y="80" width="120" height="40" rx="9"/><text class="t" x="34" y="105">Chat agent</text>
+              <rect class="box" x="20" y="134" width="120" height="40" rx="9"/><text class="t" x="34" y="159">Phone agent</text>
+              <path class="ln" d="M140 46 C190 46 200 100 248 100 M140 100 H248 M140 154 C190 154 200 100 248 100"/>
+              <rect class="box hl" x="248" y="66" width="140" height="68" rx="12"/><text class="t" x="264" y="94">One doorway</text><text class="s" x="264" y="112">identity, scope, audit</text>
+              <path class="ln" d="M388 100 C440 100 444 46 492 46 M388 100 H492 M388 100 C440 100 444 154 492 154"/>
+              <rect class="box" x="492" y="26" width="128" height="40" rx="9"/><text class="t" x="506" y="51">Tickets</text>
+              <rect class="box" x="492" y="80" width="128" height="40" rx="9"/><text class="t" x="506" y="105">Projects</text>
+              <rect class="box" x="492" y="134" width="128" height="40" rx="9"/><text class="t" x="506" y="159">Email</text>
+              <rect class="box wait" x="414" y="176" width="150" height="20" rx="6"/><text class="s" x="424" y="190">writes: preview, then confirm</text>
+            </svg>
+          </div>
+          <div class="body">
+            <div class="top"><h3>One governed doorway between AI and the business</h3><span class="pill live">In production</span></div>
+            <p>
+              A shared MCP platform through which agents reach ticketing, project
+              and email systems. Identity and scope are enforced once, in one
+              place, and every write is previewed and confirmed by a person
+              before it runs.
+            </p>
+            <ul class="facts"><li>MCP</li><li>One place to enforce access</li><li>Human-confirmed writes</li></ul>
+          </div>
+        </article>
+
+        <!-- 4. Knowledge -->
+        <article class="panel" role="tabpanel" id="p4" aria-labelledby="t4" hidden>
+          <div class="art">
+            <svg viewBox="0 0 640 200" aria-hidden="true">
+              <rect class="box" x="20" y="34" width="186" height="132" rx="12"/>
+              <text class="t" x="36" y="62">Refund policy</text><text class="m" x="36" y="92">owner   finance lead</text><text class="m" x="36" y="112">version 4</text><text class="m" x="36" y="132">review  in 9 months</text><circle class="dot-ok" cx="188" cy="57" r="4"/>
+              <rect class="box" x="226" y="34" width="186" height="132" rx="12"/>
+              <text class="t" x="242" y="62">Data definitions</text><text class="m" x="242" y="92">owner   data steward</text><text class="m" x="242" y="112">version 12</text><text class="m" x="242" y="132">review  in 4 months</text><circle class="dot-ok" cx="394" cy="57" r="4"/>
+              <rect class="box wait" x="432" y="34" width="188" height="132" rx="12"/>
+              <text class="t" x="448" y="62">Vendor contacts</text><text class="m" x="448" y="92">owner   operations</text><text class="m" x="448" y="112">version 2</text><text class="m" x="448" y="132">review  due now</text><circle class="dot-wait" cx="602" cy="57" r="4"/>
+            </svg>
+          </div>
+          <div class="body">
+            <div class="top"><h3>Institutional knowledge, made answerable</h3><span class="pill">Phased rollout</span></div>
+            <p>
+              A knowledge base in which every fact carries an owner, a version and
+              a review date, served to AI through the same doorway. Designed to
+              retire key-person risk rather than document around it.
+            </p>
+            <ul class="facts"><li>Owned, versioned facts</li><li>Per-person identity</li><li>Review dates enforced</li></ul>
+          </div>
+        </article>
+
+        <!-- 5. Privacy control plane -->
+        <article class="panel" role="tabpanel" id="p5" aria-labelledby="t5" hidden>
+          <div class="art">
+            <svg viewBox="0 0 640 200" aria-hidden="true">
+              <rect class="box hl" x="20" y="74" width="110" height="52" rx="10"/><text class="t" x="34" y="97">Console</text><text class="s" x="34" y="114">single sign-on</text>
+              <path class="ln hl" d="M130 100 H166"/>
+              <rect class="box hl" x="166" y="74" width="110" height="52" rx="10"/><text class="t" x="180" y="97">API</text><text class="s" x="180" y="114">role-based access</text>
+              <path class="ln hl" d="M276 100 H312"/>
+              <rect class="box hl" x="312" y="74" width="110" height="52" rx="10"/><text class="t" x="326" y="97">SDK</text><text class="s" x="326" y="114">runs on each site</text>
+              <path class="ln" d="M422 100 C460 100 462 44 500 44 M422 100 H500 M422 100 C460 100 462 156 500 156"/>
+              <rect class="box" x="500" y="24" width="120" height="40" rx="9"/><text class="t" x="514" y="49">Site, region A</text>
+              <rect class="box" x="500" y="80" width="120" height="40" rx="9"/><text class="t" x="514" y="105">Site, region B</text>
+              <rect class="box" x="500" y="136" width="120" height="40" rx="9"/><text class="t" x="514" y="161">Site, region C</text>
+              <text class="m" x="20" y="170">deploys: short-lived credentials, no stored keys</text>
+            </svg>
+          </div>
+          <div class="body">
+            <div class="top"><h3>A control plane for privacy</h3><span class="pill live">Live, enforcement staged</span></div>
+            <p>
+              A console, API and SDK that govern consent across several consumer
+              properties and jurisdictions, with single sign-on, role-based
+              access, automated tests and deployments that hold no stored keys.
+              Enforcement is being switched on in stages, after observing first.
+            </p>
+            <ul class="facts"><li>Full stack</li><li>Entra ID SSO</li><li>Observe, then enforce</li></ul>
+          </div>
+        </article>
+
+        <!-- 6. Compliance -->
+        <article class="panel" role="tabpanel" id="p6" aria-labelledby="t6" hidden>
+          <div class="art">
+            <svg viewBox="0 0 640 200" aria-hidden="true">
+              <text class="s" x="24" y="34">Certification question</text><text class="s" x="300" y="34">Earlier answer</text><text class="s" x="440" y="34">Production evidence</text>
+              <path class="ln" d="M20 44 H620"/>
+              <text class="t" x="24" y="72">Question 1</text><circle class="dot-ok" cx="306" cy="68" r="4"/><circle class="dot-ok" cx="446" cy="68" r="4"/><text class="m" x="460" y="72">confirmed</text>
+              <text class="t" x="24" y="104">Question 2</text><circle class="dot-ok" cx="306" cy="100" r="4"/><circle class="dot-ok" cx="446" cy="100" r="4"/><text class="m" x="460" y="104">confirmed</text>
+              <text class="t" x="24" y="136">Question 3</text><circle class="dot-ok" cx="306" cy="132" r="4"/><circle class="dot-wait" cx="446" cy="132" r="4"/><text class="m" x="460" y="136">corrected, fix tracked</text>
+              <text class="t" x="24" y="168">Question 4</text><circle class="dot-ok" cx="306" cy="164" r="4"/><circle class="dot-ok" cx="446" cy="164" r="4"/><text class="m" x="460" y="168">confirmed</text>
+            </svg>
+          </div>
+          <div class="body">
+            <div class="top"><h3>Compliance as evidence, not assertion</h3><span class="pill live">Complete</span></div>
+            <p>
+              A children's-privacy certification answered from production data
+              rather than prior paperwork. The evidence overturned some earlier
+              answers; we corrected them and tracked every fix to closure.
+            </p>
+            <ul class="facts"><li>COPPA</li><li>Queried, not assumed</li><li>Remediation tracked</li></ul>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDATIONS -->
+<section class="section" id="foundations">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>The foundations underneath</h2>
+      <p>The AI work stands on twenty years of building the systems a business actually runs on.</p>
+    </div>
+    <div class="found">
+      <div class="f a big">
+        <h3>A business rebuilt from first principles</h3>
+        <p>
+          Every system of an acquired business, rebuilt from the ground up as it
+          grew from a handful of daily orders into a multi-million-dollar
+          operation, then extended to bring acquired brands onto the same
+          foundations. Still in service more than a decade later.
+        </p>
+      </div>
+      <div class="f b">
+        <div class="metric">70%</div>
+        <h3>Lower infrastructure cost</h3>
+        <p>Data centers to AWS, with PCI DSS held through every annual audit.</p>
+      </div>
+      <div class="f c">
+        <div class="metric">200+</div>
+        <h3>Tables, proven one by one</h3>
+        <p>A warehouse consolidated and validated well beyond row counts.</p>
+      </div>
+      <div class="f d">
+        <div class="metric">18 yrs</div>
+        <h3>Of order logic, re-expressed</h3>
+        <p>A legacy engine rebuilt as a modern Python service, checked against live integrations.</p>
+      </div>
+      <div class="f e">
+        <div class="metric">60%</div>
+        <h3>Faster deployment cycles</h3>
+        <p>From a CI/CD overhaul that made shipping routine.</p>
+      </div>
+    </div>
+    <div class="found" style="margin-top:14px">
+      <div class="f" style="grid-column: 1 / -1">
+        <h3 style="margin-top:0">Security that still admits every real customer</h3>
+        <p>
+          Internet-facing traffic hardened toward OWASP and PCI through a staged
+          count, tune, then block rollout. Long-lived credentials replaced with
+          single sign-on. Checkout risk judged by how a card is actually funded,
+          and a new digital wallet launched end to end.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LESSONS -->
+<section class="section" id="lessons">
+  <div class="wrap">
+    <div class="section-head"><h2>Lessons kept</h2></div>
+    <div class="lessons">
+      <div class="lesson"><h3>Success is not evidence.</h3><p>A tool that reports success has described itself, not the system. Check the system.</p></div>
+      <div class="lesson"><h3>Done means working, not merged.</h3><p>A closed ticket is no help to someone who still can't reach the feature.</p></div>
+      <div class="lesson"><h3>A decision only spoken is not a decision.</h3><p>If it isn't in the code or the ticket, it's an accident that hasn't happened yet.</p></div>
+      <div class="lesson"><h3>Size is not usage.</h3><p>The quietest line on the bill can be the system a partner depends on every morning.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="section" id="experience">
+  <div class="wrap">
+    <div class="section-head"><h2>Experience</h2></div>
+    <ol class="timeline">
+      <li>
+        <span class="years">2021 to now</span>
+        <span class="role">Senior Vice President, Engineering</span>
+        <span class="org">Hooked &amp; Company, Connecticut</span>
+        <p>Architecture, data and security for a multi-brand consumer business. Since 2024, leading AI adoption and its governance across the company, and building much of it.</p>
+      </li>
+      <li>
+        <span class="years">2008 to 2021</span>
+        <span class="role">Senior Engineer, Solutions Architect, Director of Technology</span>
+        <span class="org">Sandviks AS, now Hooked &amp; Company</span>
+        <p>Rebuilt every system of the business, led the move to the cloud and built the unified data warehouse.</p>
+      </li>
+      <li>
+        <span class="years">2005 to 2008</span>
+        <span class="role">Senior Software Engineer</span>
+        <span class="org">Scholastic, New York</span>
+        <p>Consumer subscription and e-commerce platforms; joined Sandviks through acquisition.</p>
+      </li>
+      <li>
+        <span class="years">2002 to 2005</span>
+        <span class="role">Engineer and Project Lead</span>
+        <span class="org">United Telecoms and Primeaccess, Hyderabad</span>
+        <p>Began on India's first government e-governance pilot.</p>
+      </li>
+    </ol>
+    <p class="edu">
+      Data Science and Machine Learning, MIT (2024). M.S. in Computer Information
+      Systems, Institute for Technology and Management, with Southern New
+      Hampshire University. Bachelor’s in Statistics, Kakatiya University.
+    </p>
+  </div>
+</section>
+
+<!-- WRITING -->
+<section class="section" id="writing">
+  <div class="wrap">
+    <div class="section-head"><h2>Writing</h2></div>
+    <div class="essays">
+      <a class="essay" href="writing/success-is-not-evidence.html"><h3>Success is not evidence</h3><p>Four times in three days, something we built reported success while changing nothing. What we now check instead.</p><span class="read">Read the essay</span></a>
+      <a class="essay" href="writing/agents-that-do-real-engineering.html"><h3>Agents that do real engineering work</h3><p>What changes when AI is treated as an engineering team, with specs, tests and supervision, rather than autocomplete.</p><span class="read">Read the essay</span></a>
+      <a class="essay" href="writing/a-governed-doorway-mcp.html"><h3>A governed doorway</h3><p>What can your agents touch, and who approved it? Notes from building one controlled entrance for all of them.</p><span class="read">Read the essay</span></a>
+      <a class="essay" href="writing/row-counts-lie.html"><h3>Row counts lie</h3><p>A migration where every row count matched and every table still had a defect.</p><span class="read">Read the essay</span></a>
+      <a class="essay" href="writing/prototypes-before-mandates.html"><h3>Prototypes before mandates</h3><p>Company-wide AI adoption didn't start with a policy. It started with working software.</p><span class="read">Read the essay</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="card">
+      <h2>If getting it right matters as much as getting it done, let's talk.</h2>
+      <p>I'm glad to compare notes with leaders working out how to put AI into production safely.</p>
+      <div class="cta">
+        <a class="btn primary" href="mailto:srikanthmadishetti@gmail.com">Email me</a>
+        <a class="btn" href="https://www.linkedin.com/in/smadishetti/">LinkedIn</a>
+        <a class="btn" href="https://github.com/smadasty">GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Srikanth Madishetti, Greenwich, Connecticut</span>
+    <a href="#top">Back to top</a>
+  </div>
+</footer>
+
+<script>
+/* Theme toggle */
+(function () {
+  var root = document.documentElement, btn = document.getElementById("themeToggle");
+  function isDark() {
+    var t = root.getAttribute("data-theme");
+    return t ? t === "dark" : !window.matchMedia("(prefers-color-scheme: light)").matches;
+  }
+  function label() { btn.textContent = isDark() ? "Light" : "Dark"; }
+  btn.addEventListener("click", function () {
+    var next = isDark() ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem("theme", next); } catch (e) {}
+    label();
+  });
+  label();
+})();
+
+/* Project tabs */
+(function () {
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+  function select(tab, focus) {
+    tabs.forEach(function (t) {
+      var on = t === tab;
+      t.setAttribute("aria-selected", on);
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+    });
+    if (focus) tab.focus();
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener("click", function () { select(t); });
+    t.addEventListener("keydown", function (e) {
+      var d = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key];
+      if (!d) return;
+      e.preventDefault();
+      select(tabs[(i + d + tabs.length) % tabs.length], true);
+    });
+  });
+})();
+
+/* Hero diagram: reads pass straight through, writes wait for a person */
+(function () {
+  var svg = document.querySelector(".flow svg");
+  var packet = document.getElementById("packet");
+  var log = document.getElementById("log");
+  var person = document.getElementById("n-person");
+  var personSub = document.getElementById("person-sub");
+  var nodes = ["n-agent", "n-door", "n-sys"].map(function (id) { return document.getElementById(id); });
+  var w = function (id) { return document.getElementById(id); };
+
+  var script = [
+    { kind: "read",  tool: "data.query",     route: ["w1", "w2"] },
+    { kind: "write", tool: "ticket.comment", route: ["w1", "w3", "WAIT", "w4"] },
+    { kind: "read",  tool: "tickets.search", route: ["w1", "w2"] },
+    { kind: "write", tool: "email.draft",    route: ["w1", "w3", "WAIT", "w4"] }
+  ];
+  var lines = [];
+  function line(kind, tool, status, cls) {
+    lines.push('<div><span class="k-' + kind + '">' + kind + '</span><span>' + tool + '</span><span class="' + cls + '">' + status + "</span></div>");
+    lines = lines.slice(-4);
+    log.innerHTML = lines.join("");
+  }
+  function setStatus(text, cls) {
+    var last = log.lastElementChild;
+    if (last) { last.lastElementChild.textContent = text; last.lastElementChild.className = cls; }
+    lines[lines.length - 1] = last ? last.outerHTML : lines[lines.length - 1];
+  }
+
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    line("read", "data.query", "allowed", "s-ok");
+    line("write", "ticket.comment", "approved by a person", "s-ok");
+    return;
+  }
+
+  function travel(path, ms) {
+    return new Promise(function (done) {
+      var len = path.getTotalLength(), t0 = null;
+      function step(ts) {
+        if (!t0) t0 = ts;
+        var k = Math.min(1, (ts - t0) / ms);
+        var e = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+        var p = path.getPointAtLength(e * len);
+        packet.setAttribute("cx", p.x); packet.setAttribute("cy", p.y);
+        if (k < 1) requestAnimationFrame(step); else done();
+      }
+      requestAnimationFrame(step);
+    });
+  }
+  function wait(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+
+  var i = 0;
+  async function run() {
+    var s = script[i++ % script.length];
+    packet.setAttribute("class", "packet" + (s.kind === "write" ? " write" : ""));
+    nodes.forEach(function (n) { n.classList.remove("hit"); });
+    person.classList.remove("wait", "ok");
+    personSub.textContent = "approves writes";
+    line(s.kind, s.tool, "in flight", "");
+    nodes[0].classList.add("hit");
+    for (var r = 0; r < s.route.length; r++) {
+      var step = s.route[r];
+      if (step === "WAIT") {
+        person.classList.add("wait");
+        personSub.textContent = "reviewing the preview";
+        setStatus("waiting for a person", "s-wait");
+        await wait(1500);
+        person.classList.remove("wait"); person.classList.add("ok");
+        personSub.textContent = "approved";
+        setStatus("approved by a person", "s-ok");
+        await wait(500);
+        continue;
+      }
+      await travel(w(step), step === "w1" ? 650 : 900);
+      if (step === "w1") nodes[1].classList.add("hit");
+    }
+    nodes[2].classList.add("hit");
+    if (s.kind === "read") setStatus("allowed, read-only", "s-ok");
+    await wait(1300);
+    packet.setAttribute("cx", -20);
+    run();
+  }
+  var started = false;
+  new IntersectionObserver(function (es) {
+    if (es[0].isIntersecting && !started) { started = true; run(); }
+  }).observe(svg);
+})();
+</script>
+</body>
+</html>

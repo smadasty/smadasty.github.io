@@ -1,32 +1,38 @@
-Freelancer Jekyll theme  
-=========================
+# Srikanth Madishetti: profile site
 
-Jekyll theme based on [Freelancer bootstrap theme ](http://startbootstrap.com/template-overviews/freelancer/)
+Static site: plain HTML, CSS and a little vanilla JS. No build step, no dependencies.
 
-## How to use
- - Place a image in `/img/portfolio/`
- - Replace `your-email@domain.com` in `_config.yml` with your email address. Refer to [formspree](http://formspree.io/) for more information.
- - Create posts to display your projects. Use the follow as an example:
-```txt
----
-layout: default
-modal-id: 1
-date: 2020-01-18
-img: cabin.png
-alt: image-alt
-project-date: January 2020
-client: The Client
-category: Web Development
-description: The description of the project
+## Structure
 
----
+```
+index.html          Homepage: hero diagram, principles, project showcase, foundations, experience, writing
+home.css            Shared tokens, header, footer and homepage styles (dark default, light toggle)
+essay.css           Essay layout: header, diagram, prose column, sticky outline
+steps.js            Theme toggle, essay step diagram, outline highlighting
+writing/index.html  Essay list
+writing/*.html      Essays
+favicon.svg         Tab icon
+og.png              1200x630 link-preview image
+404.html            Not-found page for GitHub Pages
 ```
 
-## Demo
-View this jekyll theme in action [here](https://jeromelachaud.com/freelancer-theme)
+## Preview locally
 
-## Screenshot
-![screenshot](https://raw.githubusercontent.com/jeromelachaud/freelancer-theme/master/screenshot.png)
+```
+cd site && python3 -m http.server 8765
+# http://localhost:8765
+```
 
----------
-For more details, read the [documentation](http://jekyllrb.com/)
+## Adding an essay
+
+Essays share one page shell and one diagram format. Copy an existing essay in
+`writing/`, keep the header, diagram, `<article class="prose">` and author box,
+and replace the text. Each `<h2>` needs an `id` so it appears in the outline.
+Add a card to `writing/index.html` and to the Writing section of `index.html`.
+
+## Deploy (GitHub Pages)
+
+Served from the `smadasty/smadasty.github.io` repo, `main` branch, root.
+Copy this folder's contents into the repo root and push. A `CNAME` file in the
+repo root sets a custom domain; without it the site is at https://smadasty.github.io.
+If the domain changes, update the `og:url`, `og:image` and `canonical` URLs.

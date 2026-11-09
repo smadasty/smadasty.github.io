@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agents that do real engineering work | Srikanth Madishetti</title>
+  <meta name="description" content="What happened when we stopped treating AI as autocomplete and started treating it as an engineering team — with specs, tests, and supervision.">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://smadasty.github.io/writing/agents-that-do-real-engineering.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Agents that do real engineering work">
+  <meta property="og:description" content="What happened when we stopped treating AI as autocomplete and started treating it as an engineering team — with specs, tests, and supervision.">
+  <meta property="og:url" content="https://smadasty.github.io/writing/agents-that-do-real-engineering.html">
+  <meta property="og:image" content="https://smadasty.github.io/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#0d131c">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../home.css">
+  <link rel="stylesheet" href="../essay.css">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="name" href="../index.html">Srikanth Madishetti</a>
+    <nav aria-label="Sections">
+      <a href="../index.html#work">Work</a>
+      <a href="index.html">Writing</a>
+      <a href="../index.html#contact" class="opt">Contact</a>
+      <button class="theme" id="themeToggle" type="button">Light</button>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="post-head">
+    <div class="wrap">
+      <a class="back" href="index.html">All writing</a>
+      <h1>Agents that do real engineering work</h1>
+      <p class="dek">What happened when we stopped treating AI as autocomplete and started treating it as an engineering team — with specs, tests, and supervision.</p>
+      <div class="date">July 2026</div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <figure class="post-figure">
+      <div class="flow">
+        <div class="flow-bar"><span id="steps-status">Work starts as a written spec, not a prompt.</span><span class="live">Running</span></div>
+        <svg class="steps" viewBox="0 0 700 136" role="img" aria-label="Agents do the work. People own the gates.">
+          <path class="route" d="M78.0 68 H622.0"/>
+          <circle class="packet" r="5" cx="78.0" cy="68"/>
+          <g class="node" data-at="0.0000" data-say="Work starts as a written spec, not a prompt."><rect x="16.0" y="40" width="124" height="56" rx="10"/><text x="28.0" y="64">Spec</text><text class="sub" x="28.0" y="81">written first</text></g><g class="node" data-at="0.2500" data-say="Agents do the building."><rect x="152.0" y="40" width="124" height="56" rx="10"/><text x="164.0" y="64">Agents build</text><text class="sub" x="164.0" y="81">code and migrations</text></g><g class="node" data-at="0.5000" data-tone="ok" data-say="Tests check behavior against the real system."><rect x="288.0" y="40" width="124" height="56" rx="10"/><text x="300.0" y="64">Tests</text><text class="sub" x="300.0" y="81">against real behavior</text></g><g class="node" data-at="0.7500" data-tone="wait" data-final="ok" data-say="A person reviews the change." data-after="Reviewed and approved."><rect x="424.0" y="40" width="124" height="56" rx="10"/><text x="436.0" y="64">Human review</text><text class="sub" x="436.0" y="81">every change</text></g><g class="node" data-at="1.0000" data-tone="ok" data-say="It ships through a protected branch."><rect x="560.0" y="40" width="124" height="56" rx="10"/><text x="572.0" y="64">Ship</text><text class="sub" x="572.0" y="81">protected branch</text></g>
+        </svg>
+      </div>
+      <figcaption>Agents do the work. People own the gates.</figcaption>
+    </figure>
+    <div class="post-body">
+      <div>
+        <article class="prose">
+
+      <p>
+        Every company I talk to is somewhere on the same curve with AI and
+        engineering. First it's autocomplete. Then it's "we let developers use
+        a chatbot." Then someone asks the uncomfortable question: if this
+        thing can write code, review code, and reason about systems — why is
+        it still sitting in a side window while we do the work the old way?
+      </p>
+
+      <p>
+        Over the past year I've been living on the far side of that question.
+        Not in a lab, and not with a vendor's demo — inside a real company,
+        against real production systems, with an engineering estate that
+        includes a two-decade-old order engine, a payments stack, and the
+        accumulated decisions of eighteen years. What I found changed how I
+        think about engineering capacity entirely: <strong>AI agents can do
+        real engineering work — if you build the operating model around them
+        the way you'd build it around an engineering team.</strong>
+      </p>
+
+      <h2 id="what-real-work-means">What "real work" means</h2>
+      <p>
+        I don't mean generating boilerplate. Over a period of months, working
+        this way, we rebuilt a legacy .NET order engine as a modern Python
+        service — starting with line-level behavioral specifications
+        reverse-engineered from the original, and ending with the new system
+        validated live against every external integration it touches:
+        payments, tax, fraud screening, fulfillment, provisioning. In one
+        validation pass, the new system reproduced the legacy system's most
+        intricate encoding behavior against real production records, and
+        surfaced real bugs that code review alone had missed.
+      </p>
+      <p>
+        The same practice migrated a two-hundred-table data warehouse between
+        cloud platforms — every table validated for row counts, column
+        parity, and content checksums, which caught a data-fidelity defect
+        that row counts alone would have waved through. It audited and cleaned
+        up years of accumulated cloud infrastructure, cutting monthly spend
+        substantially while <em>closing</em> disaster-recovery gaps rather
+        than creating them. It root-caused a production incident down to a
+        single subtle line of schema-resolution logic.
+      </p>
+      <p>
+        None of that is autocomplete. That's the work of an engineering team —
+        specification, implementation, validation, operations, forensics.
+      </p>
+
+      <h2 id="the-part-everyone-skips">The part everyone skips</h2>
+      <p>
+        Here's what I tell other executives: the model is the easy part. What
+        makes this work is everything around it — the operating model. Ours
+        has a few load-bearing pieces:
+      </p>
+      <p>
+        <strong>Written standards.</strong> Agents follow the engineering
+        culture you document, not the one you wish you had. We maintain
+        explicit working standards — research before acting, smallest change
+        that solves the problem, tests with every change, no silent
+        assumptions — and every agent session starts from them. It forced us
+        to write down things we'd left implicit for years, which turned out to
+        be valuable for the humans too.
+      </p>
+      <p>
+        <strong>Governed access.</strong> Agents need to touch real systems to
+        do real work — and that access has to be deliberate. We built a shared
+        platform layer (using MCP, the emerging standard for tool access) that
+        gives agents governed, auditable access to enterprise systems: the
+        same interface across AI clients, with authentication, scoping, and
+        an audit trail. The agent that updates a ticket and the agent that
+        queries a database go through the same controlled doorway.
+      </p>
+      <p>
+        <strong>Validation as the center of gravity.</strong> The discipline
+        shifts from writing the work to proving the work. Read-only
+        credentials by default. Production writes gated behind explicit
+        human approval. Test environments where the blast radius is zero.
+        Golden-record comparisons against the legacy system's actual behavior.
+        When an agent claims something works, the claim gets exercised
+        end-to-end against real integrations before anyone believes it.
+      </p>
+      <p>
+        <strong>Supervision with real authority.</strong> A human — in our
+        case, often me — reviews the plan before execution, approves anything
+        irreversible, and owns the outcome. "Under supervision" isn't a
+        disclaimer; it's the job. The skill it demands looks less like typing
+        and more like running a very fast, very literal engineering team:
+        clear specifications, sharp review, and knowing where the bodies are
+        buried in your own systems.
+      </p>
+
+      <h2 id="why-executives-should-care">Why executives should care</h2>
+      <p>
+        The economics are hard to ignore: work that would traditionally
+        consume several teams' quarters happened with one supervising engineer
+        and an agent practice. But the deeper shift is strategic. For twenty
+        years, engineering capacity was the binding constraint on every
+        roadmap I owned. That constraint is moving — and the companies that
+        figure out the operating model first get the compounding advantage.
+      </p>
+      <p>
+        The failure mode is equally clear. Half the companies out there have
+        responded to AI by rebranding an existing role and buying a platform.
+        Adoption without an operating model produces either nothing (pilots
+        that never touch production) or chaos (ungoverned agents with write
+        access). The path that works is the boring one: build real systems,
+        prove them, write down the rules, and scale what survives contact
+        with production.
+      </p>
+      <p>
+        That's what I mean when I say AI transformation isn't bought — it's
+        built. And the leaders who build it themselves are the ones who can
+        govern it credibly.
+      </p>
+        </article>
+
+    <aside class="author">
+      <p><strong>Srikanth Madishetti.</strong> I build systems end to end, from database to cloud,
+      and lead the teams that run them. Right now that means making AI safe enough for production.</p>
+      <div class="cta">
+        <a class="btn primary" href="mailto:srikanthmadishetti@gmail.com">Email me</a>
+        <a class="btn" href="https://www.linkedin.com/in/smadishetti/">LinkedIn</a>
+        <a class="btn" href="../index.html">More about my work</a>
+      </div>
+    </aside>
+      </div>
+      <aside class="toc" aria-label="On this page">
+        <p class="toc-title">On this page</p>
+        <nav><a href="#what-real-work-means">What "real work" means</a><a href="#the-part-everyone-skips">The part everyone skips</a><a href="#why-executives-should-care">Why executives should care</a></nav>
+        <p class="toc-meta">3 min read</p>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Srikanth Madishetti, Greenwich, Connecticut</span>
+    <a href="#top">Back to top</a>
+  </div>
+</footer>
+
+<script src="../steps.js"></script>
+</body>
+</html>

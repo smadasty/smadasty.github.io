@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Row counts lie: validating AI-assisted data migrations | Srikanth Madishetti</title>
+  <meta name="description" content="We migrated a 200-table warehouse with AI agents. Every row count matched — and the data still had a defect. What deep validation looks like.">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://smadasty.github.io/writing/row-counts-lie.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Row counts lie: validating AI-assisted data migrations">
+  <meta property="og:description" content="We migrated a 200-table warehouse with AI agents. Every row count matched — and the data still had a defect. What deep validation looks like.">
+  <meta property="og:url" content="https://smadasty.github.io/writing/row-counts-lie.html">
+  <meta property="og:image" content="https://smadasty.github.io/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#0d131c">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../home.css">
+  <link rel="stylesheet" href="../essay.css">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="name" href="../index.html">Srikanth Madishetti</a>
+    <nav aria-label="Sections">
+      <a href="../index.html#work">Work</a>
+      <a href="index.html">Writing</a>
+      <a href="../index.html#contact" class="opt">Contact</a>
+      <button class="theme" id="themeToggle" type="button">Light</button>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="post-head">
+    <div class="wrap">
+      <a class="back" href="index.html">All writing</a>
+      <h1>Row counts lie: validating AI-assisted data migrations</h1>
+      <p class="dek">We migrated a 200-table warehouse with AI agents. Every row count matched — and the data still had a defect. What deep validation looks like.</p>
+      <div class="date">July 2026</div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <figure class="post-figure">
+      <div class="flow">
+        <div class="flow-bar"><span id="steps-status">Two hundred tables leave the old warehouse.</span><span class="live">Running</span></div>
+        <svg class="steps" viewBox="0 0 700 136" role="img" aria-label="Row counts said done. Deep validation said otherwise.">
+          <path class="route" d="M78.0 68 H622.0"/>
+          <circle class="packet" r="5" cx="78.0" cy="68"/>
+          <g class="node" data-at="0.0000" data-say="Two hundred tables leave the old warehouse."><rect x="16.0" y="40" width="124" height="56" rx="10"/><text x="28.0" y="64">Source</text><text class="sub" x="28.0" y="81">200+ tables</text></g><g class="node" data-at="0.2500" data-say="The pipeline moves them, fast and repeatable."><rect x="152.0" y="40" width="124" height="56" rx="10"/><text x="164.0" y="64">Migrate</text><text class="sub" x="164.0" y="81">scripted, restartable</text></g><g class="node" data-at="0.5000" data-tone="ok" data-say="Every row count matches. Most teams stop here."><rect x="288.0" y="40" width="124" height="56" rx="10"/><text x="300.0" y="64">Row counts</text><text class="sub" x="300.0" y="81">every one matches</text></g><g class="node" data-at="0.7500" data-tone="wait" data-final="ok" data-say="Deep validation finds a defect in every table." data-after="Defect fixed, then proven again."><rect x="424.0" y="40" width="124" height="56" rx="10"/><text x="436.0" y="64">Deep validation</text><text class="sub" x="436.0" y="81">column names lost</text></g><g class="node" data-at="1.0000" data-tone="ok" data-say="Only then is the old warehouse retired."><rect x="560.0" y="40" width="124" height="56" rx="10"/><text x="572.0" y="64">Retire source</text><text class="sub" x="572.0" y="81">only after proof</text></g>
+        </svg>
+      </div>
+      <figcaption>Row counts said done. Deep validation said otherwise.</figcaption>
+    </figure>
+    <div class="post-body">
+      <div>
+        <article class="prose">
+
+      <p>
+        This year we retired a cloud data warehouse — two hundred
+        plus tables, hundreds of millions of rows, moved to a new platform
+        with an AI-agent-driven pipeline. The migration itself went the way
+        these things are supposed to go and never used to: restartable,
+        idempotent, fully scripted, done in days.
+      </p>
+
+      <p>
+        Then the validation pass we almost didn't build found a defect in
+        every single table.
+      </p>
+
+      <h2 id="the-defect-row-counts-couldn-t-see">The defect row counts couldn't see</h2>
+      <p>
+        Our first validation was the industry-standard one: compare row
+        counts, source versus destination, table by table. Two hundred plus
+        tables, every count an exact match. By the standard most migrations
+        are held to, we were done. Green across the board.
+      </p>
+      <p>
+        Then we built a deeper validator — and it reported that every migrated
+        table had lost its column names. The data was intact, perfectly
+        ordered, byte-for-byte faithful… and every column was named
+        <code>_COL_0</code>, <code>_COL_1</code>, <code>_COL_2</code>. A
+        subtle default in the export format had silently dropped the headers.
+        Row counts matched exactly, because row counts don't look at names.
+        Every dashboard and query pointed at that data would have broken —
+        after we'd declared victory and torn down the source.
+      </p>
+      <p>
+        The fix turned out to be cheap — the column order was intact, so we
+        could restore names in place from the schema inventory, thousands of
+        renames applied without re-moving a byte. But "cheap" was luck.
+        The lesson wasn't.
+      </p>
+
+      <h2 id="validation-is-a-ladder-and-most-teams-stop-on-rung-one">Validation is a ladder, and most teams stop on rung one</h2>
+      <p>
+        <strong>Rung one: row counts.</strong> Catches truncation and missed
+        tables. Catches nothing about the shape or content of the data.
+      </p>
+      <p>
+        <strong>Rung two: schema parity.</strong> Column names and structure,
+        source versus destination. This is the rung that caught our defect —
+        one step up from where most migrations stop.
+      </p>
+      <p>
+        <strong>Rung three: content checks.</strong> Timestamp ranges,
+        numeric sums, per-column comparisons. When those match across
+        hundreds of millions of rows, you've earned the right to say
+        "faithful copy" — and to actually delete the source.
+      </p>
+      <p>
+        We now run all three rungs on everything, and the final state was
+        every table passing every rung. The deep pass costs a fraction of
+        the migration itself and, in our case, was the difference between a
+        clean cutover and a slow-motion incident discovered by whoever ran
+        the first report.
+      </p>
+
+      <h2 id="the-ai-angle-and-why-the-bar-goes-up-not-down">The AI angle — and why the bar goes up, not down</h2>
+      <p>
+        Here's the part I'd flag for other technology leaders. AI agents made
+        this migration dramatically faster — and that speed is exactly why
+        the validation bar has to rise. When work took a team a quarter,
+        errors surfaced gradually, caught by the many humans in the loop.
+        When an agent moves two hundred tables in days, a systematic defect
+        lands everywhere at once, wearing a green checkmark.
+      </p>
+      <p>
+        The discipline that makes AI-assisted engineering trustworthy isn't
+        slowing the agents down. It's shifting the engineering effort from
+        <em>doing</em> the work to <em>proving</em> the work: independent
+        validators, layered checks, and the rule that nothing gets declared
+        done — and nothing gets deleted — on the strength of a row count.
+        Verification isn't overhead on the work. Increasingly, it
+        <em>is</em> the work.
+      </p>
+        </article>
+
+    <aside class="author">
+      <p><strong>Srikanth Madishetti.</strong> I build systems end to end, from database to cloud,
+      and lead the teams that run them. Right now that means making AI safe enough for production.</p>
+      <div class="cta">
+        <a class="btn primary" href="mailto:srikanthmadishetti@gmail.com">Email me</a>
+        <a class="btn" href="https://www.linkedin.com/in/smadishetti/">LinkedIn</a>
+        <a class="btn" href="../index.html">More about my work</a>
+      </div>
+    </aside>
+      </div>
+      <aside class="toc" aria-label="On this page">
+        <p class="toc-title">On this page</p>
+        <nav><a href="#the-defect-row-counts-couldn-t-see">The defect row counts couldn't see</a><a href="#validation-is-a-ladder-and-most-teams-stop-on-rung-one">Validation is a ladder, and most teams stop on rung one</a><a href="#the-ai-angle-and-why-the-bar-goes-up-not-down">The AI angle — and why the bar goes up, not down</a></nav>
+        <p class="toc-meta">2 min read</p>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Srikanth Madishetti, Greenwich, Connecticut</span>
+    <a href="#top">Back to top</a>
+  </div>
+</footer>
+
+<script src="../steps.js"></script>
+</body>
+</html>
